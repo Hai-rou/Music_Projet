@@ -1,0 +1,37 @@
+<div class="playlists-container">
+    <h2>Mes playlists</h2>
+
+    <!-- Vue : Liste des playlists -->
+    <div *ngIf="!selectedPlaylist">
+        <div *ngIf="playlists.length === 0" class="empty-message">
+            <p>Aucune playlist disponible. Scanner un dossier depuis la bibliothèque</p>
+        </div>
+
+        <div *ngIf="playlists.length > 0" class="playlists-grid">
+            <!--Boucle sur chaque playlist-->
+            <div *ngFor="let playlist of playlists" class="playlist-card">
+                <h3>{{ playlist.name }}</h3>
+                <p>{{ playlist.tracks.length }} morceau(x)</p>
+                <button (click)="viewTracks(playlist)">Voir les morceaux</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Vue : Détails d'une playlist -->
+    <div *ngIf="selectedPlaylist" class="playlist-details">
+        <button class="back-btn" (click)="backToPlaylists()">← Retour aux playlists</button>
+        
+        <div class="playlist-header">
+            <h3>{{ selectedPlaylist.name }}</h3>
+            <p>{{ selectedPlaylist.tracks.length }} morceau(x)</p>
+        </div>
+
+        <div class="tracks-list">
+            <div *ngFor="let track of selectedPlaylist.tracks; let i = index" class="track-item">
+                <span class="track-number">{{ i + 1 }}</span>
+                <span class="track-name">{{ track.name }}</span>
+                <button class="play-btn" (click)="playTrack(track)">▶️ Jouer</button>
+            </div>
+        </div>
+    </div>
+</div>

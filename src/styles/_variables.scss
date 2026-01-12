@@ -1,0 +1,53 @@
+// ==========================================
+// CHARTE GRAPHIQUE - HAACCHI MUSIC
+// ==========================================
+
+// Couleurs de la marque (depuis le logo)
+$brand-dark: #38132D;      
+$brand-yellow-light: #F2EB7A;  
+$brand-yellow-dark: #D5AD27;   
+$brand-orange-light: #F6AA1E;   
+$brand-orange: #A74F37;        
+
+// Gradients de marque
+$gradient-primary: linear-gradient(135deg, $brand-yellow-light 0%, $brand-orange 100%);
+$gradient-secondary: linear-gradient(135deg, $brand-yellow-dark 0%, $brand-orange-light 100%);
+
+// Couleurs fonctionnelles
+$color-primary: $brand-orange;
+$color-secondary: $brand-yellow-dark;
+$color-dark: $brand-dark;
+
+// Textes
+$text-primary: $brand-dark;
+$text-secondary: #666666;
+$text-light: #999999;
+$text-on-dark: #FFFFFF;
+
+// Backgrounds
+$bg-body: #FAFAFA;
+$bg-card: #FFFFFF;
+$bg-hover: rgba($brand-yellow-light, 0.1);
+
+// Espacements (gardez vos valeurs actuelles)
+$spacing-xs: 0.5rem;
+$spacing-sm: 1rem;
+$spacing-md: 1.5rem;
+$spacing-lg: 2rem;
+$spacing-xl: 3rem;
+
+// Border radius
+$radius-sm: 8px;
+$radius-md: 12px;
+$radius-lg: 16px;
+$radius-full: 50%;
+
+// Ombres
+$shadow-sm: 0 2px 8px rgba($brand-dark, 0.1);
+$shadow-md: 0 4px 20px rgba($brand-dark, 0.15);
+$shadow-lg: 0 8px 30px rgba($brand-dark, 0.2);
+
+// Transitions
+$transition-fast: 0.2s ease;
+$transition-normal: 0.3s ease;
+$transition-slow: 0.5s ease;

@@ -1,6 +1,4 @@
 /* You can add global styles to this file, and also import other style files */
-@import './styles/_variables.scss';
-// Reset des marges globales
 html, body {
   margin: 0;
   padding: 0;
@@ -9,4 +7,4 @@ html, body {
 
 *, *::before, *::after {
   box-sizing: inherit;
-}
+}/*# sourceMappingURL=styles.css.map */

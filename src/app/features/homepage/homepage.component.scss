@@ -1,0 +1,180 @@
+@import '../../../styles/_variables.scss';
+
+// Layout : Sidebar + Main content côte à côte
+.page-layout {
+  display: flex;
+  gap: $spacing-md;
+  height: calc(100vh - 200px); // Hauteur totale moins le header
+  padding: 0;
+  margin: $spacing-md;
+  overflow: hidden;
+
+  // Sidebar fixe à gauche (comme Spotify)
+  .sidebar {
+    flex: 0 0 350px; // Largeur fixe de 350px
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    
+    .home-head {
+      height: 100%;
+      padding: $spacing-xl;
+      text-align: left;
+      
+      // Glassmorphism
+      background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.95) 0%,
+        rgba(255, 255, 255, 0.9) 100%
+      );
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      
+      border: 1px solid rgba(246, 170, 30, 0.2);
+      border-radius: $radius-lg;
+      box-shadow: 
+        0 8px 32px rgba(246, 170, 30, 0.15),
+        0 2px 8px rgba(0, 0, 0, 0.1);
+      
+      h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: $brand-dark;
+        font-weight: 700;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+
+      p {
+        font-size: 1.1rem;
+        color: #666666;
+        line-height: 1.6;
+      }
+    }
+  }
+
+  // Main content scrollable à droite
+  .main-content {
+    flex: 1; // Prend tout l'espace restant
+    overflow-y: auto;
+    overflow-x: hidden;
+    
+    // Scrollbar stylée
+    &::-webkit-scrollbar {
+      width: 10px;
+    }
+    
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+    }
+    
+    &::-webkit-scrollbar-thumb {
+      background: rgba(246, 170, 30, 0.5);
+      border-radius: 10px;
+      
+      &:hover {
+        background: rgba(246, 170, 30, 0.7);
+      }
+    }
+  }
+}
+
+// Responsive : sur mobile, passe en vertical
+@media (max-width: 768px) {
+  .page-layout {
+    flex-direction: column;
+    height: auto;
+    
+    .sidebar {
+      flex: 0 0 auto;
+      width: 100%;
+      
+      .home-head {
+        height: auto;
+      }
+    }
+    
+    .main-content {
+      flex: 1;
+      max-height: 70vh;
+    }
+  }
+}
+
+  //Section carrousel tags
+  .carrousel-tags {
+    flex: 1;
+    min-width: 300px;
+    
+    h3{
+      margin-bottom: $spacing-md;
+      color: $brand-dark;
+      font-weight: 600;
+      text-align: center;
+    }
+    .carrousel{
+      margin: 0 auto;
+      padding: 20px 0;
+      max-width: 600px;
+      overflow: hidden;
+      .group-tags {
+        display: flex;
+        gap: 20px;
+        animation: scrolling 10s linear infinite;
+        @keyframes scrolling {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-100%);
+          }
+        }
+        span{
+          // Style des tags avec effet glow
+          background: linear-gradient(135deg, rgba(246, 170, 30, 0.1), rgba(167, 79, 55, 0.1));
+          border: 1px solid rgba(246, 170, 30, 0.3);
+          padding: 1.5rem 1.5rem;
+          border-radius: $radius-md;
+          font-size: 1rem;
+          color: $brand-dark;
+          font-weight: 500;
+          cursor: pointer;
+          
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 2px 8px rgba(246, 170, 30, 0.1);
+
+          &:hover {
+            background: linear-gradient(135deg, rgba(246, 170, 30, 0.2), rgba(167, 79, 55, 0.2));
+            border-color: rgba(246, 170, 30, 0.5);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 16px rgba(246, 170, 30, 0.3);
+          }
+        }
+      }
+    }
+  }
+
+  //Section dernières écoutes
+  .last-listen{
+    margin-top: 60px;
+    .load-music{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      label{
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: $brand-dark;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        
+        &:hover {
+          color: $brand-orange;
+          transform: scale(1.05);
+        }
+      }
+      
+    }
+  }
+  

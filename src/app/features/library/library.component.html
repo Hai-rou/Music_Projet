@@ -1,0 +1,58 @@
+<div class="library-container">
+    
+    <section class="library-head">
+        <h2>Bibliothèque Musicale</h2>
+        <p>Importez votre collection de musique et créez vos playlists automatiquement</p>
+    </section>
+
+    <section class="library-upload">
+        <div class="upload-methods">
+            <!-- Scanner un dossier (méthode principale) -->
+            <div class="upload-card primary">
+                <div class="card-icon">📂</div>
+                <h3>Scanner un dossier</h3>
+                <p>Importez tous vos dossiers de musique en un clic</p>
+                <button class="scan-folder-btn" (click)="scanMusicFolder()">
+                    Scanner mon dossier musique
+                </button>
+            </div>
+
+            <!-- Ou ajouter des fichiers individuels -->
+            <div class="upload-card secondary">
+                <div class="card-icon">🎵</div>
+                <h3>Ajouter des fichiers</h3>
+                <p>Sélectionnez des morceaux individuellement</p>
+                <label for="libraryUpload" class="file-upload-btn">
+                    Choisir des fichiers
+                </label>
+                <input 
+                    type="file" 
+                    accept="audio/*" 
+                    id="libraryUpload" 
+                    multiple 
+                    (change)="onFileSelected($event)"
+                    style="display: none;"
+                />
+            </div>
+        </div>
+
+        <!-- Message de statut du scan -->
+        <div *ngIf="scanMessage" class="scan-message" [class.success]="scanStatus === 'success'" [class.error]="scanStatus === 'error'">
+            {{ scanMessage }}
+        </div>
+    </section>
+
+    <section class="library-list" *ngIf="selectedFiles.length > 0">
+        <h3>Fichiers sélectionnés ({{ selectedFiles.length }})</h3>
+        <div class="cards-grid">
+            <div class="music-card" *ngFor="let file of selectedFiles; let i = index">
+                <button class="card-play" (click)="playMusic(file)">Play ▶️</button>
+                <div class="card-content">
+                    <h4 class="card-title">{{ file.name }}</h4>
+                    <p class="card-size">{{ (file.size / 1024 / 1024).toFixed(2) }} MB</p>
+                </div>
+                <button class="card-remove" (click)="removeFile(i)">❌</button>
+            </div>
+        </div>
+    </section>
+</div>
