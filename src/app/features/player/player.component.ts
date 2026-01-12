@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AudioPlayerService } from '../../core/audio/audio-player.service';
+import { PlaylistService } from '../../core/playlists/playlist.service';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -16,12 +17,19 @@ export class PlayerComponent implements OnInit {
   currentTime: number = 0;
   duration: number = 0;
 
-  constructor(public audioPlayer: AudioPlayerService) {}
+  // Métadata affichées
+  trackTitle: string ='';
+  trackArtist: string ='';
+  trackAlbum: string ='';
+  trackPicture: string='';
+
+  constructor(public audioPlayer: AudioPlayerService, private playlistService: PlaylistService) {}
 
   ngOnInit() {
     // S'abonner aux changements du service
     this.audioPlayer.currentTrack$.subscribe(track => {
       this.currentTrack = track;
+      this.extractMetadata(track);
       console.log('Track changé:', track?.name);
     })
 
@@ -70,5 +78,27 @@ export class PlayerComponent implements OnInit {
     const percentage = clickX / rect.width;
     const newTime = percentage * this.duration;
     this.audioPlayer.seek(newTime);
+  }
+
+  async extractMetadata(track: File | null) {
+    if (!track) {
+      // Réinitialiser les infos si pas de track
+      this.trackTitle = '';
+      this.trackArtist = '';
+      this.trackAlbum = '';
+      this.trackPicture = '';
+      return;
+    }
+
+    // Extraire les métadonnées
+    const enriched = await this.playlistService.extractMetadata(track);
+    
+    // Mettre à jour l'affichage
+    this.trackTitle = enriched.title;
+    this.trackArtist = enriched.artist;
+    this.trackAlbum = enriched.album || '';
+    this.trackPicture = enriched.picture || '';
+    
+    console.log('🎵 Métadonnées:', enriched.title, '-', enriched.artist);
   }
 }

@@ -6,34 +6,134 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 .library-container .library-head {
-  margin-bottom: 10px;
+  margin-bottom: 3rem;
 }
 .library-container .library-head h2 {
   font-size: 2.5rem;
   margin-bottom: 1rem;
-  color: #333333;
+  color: #38132D;
 }
 .library-container .library-head p {
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   color: #666666;
 }
 .library-container .library-upload {
   margin-top: 30px;
-  margin-bottom: 20px;
+  margin-bottom: 40px;
 }
-.library-container .library-upload .load-music {
-  display: flex;
-  flex-direction: column;
-}
-.library-container .library-upload .load-music label {
-  display: inline-block;
-  margin-bottom: 10px;
-  font-weight: 600;
-  color: white;
-}
-.library-container .library-upload .load-music input[type=file] {
-  display: block;
+.library-container .library-upload .upload-methods {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  max-width: 900px;
   margin: 0 auto;
+}
+.library-container .library-upload .upload-methods .upload-card {
+  background: rgba(255, 255, 255, 0.95);
+  -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(10px);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 4px 20px rgba(56, 19, 45, 0.15);
+  transition: all 0.3s ease;
+}
+.library-container .library-upload .upload-methods .upload-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(56, 19, 45, 0.2);
+}
+.library-container .library-upload .upload-methods .upload-card .card-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+}
+.library-container .library-upload .upload-methods .upload-card h3 {
+  font-size: 1.5rem;
+  color: #38132D;
+  margin-bottom: 0.5rem;
+}
+.library-container .library-upload .upload-methods .upload-card p {
+  color: #666;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+.library-container .library-upload .upload-methods .upload-card.primary {
+  border: 2px solid #A74F37;
+}
+.library-container .library-upload .upload-methods .upload-card.secondary {
+  border: 2px solid #ddd;
+}
+.library-container .library-upload .upload-methods .upload-card .scan-folder-btn,
+.library-container .library-upload .upload-methods .upload-card .file-upload-btn {
+  background: linear-gradient(135deg, #38132D 0%, #A74F37 100%);
+  color: white;
+  border: none;
+  padding: 0.875rem 2rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  width: 100%;
+}
+.library-container .library-upload .upload-methods .upload-card .scan-folder-btn:hover,
+.library-container .library-upload .upload-methods .upload-card .file-upload-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 15px rgba(167, 79, 55, 0.4);
+}
+.library-container .library-upload .upload-methods .upload-card .scan-folder-btn:active,
+.library-container .library-upload .upload-methods .upload-card .file-upload-btn:active {
+  transform: scale(0.98);
+}
+.library-container .library-upload .scan-message {
+  margin-top: 2rem;
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  font-weight: 500;
+  text-align: center;
+  animation: slideIn 0.3s ease-out;
+}
+.library-container .library-upload .scan-message.success {
+  background: rgba(76, 175, 80, 0.1);
+  border: 2px solid #4CAF50;
+  color: #2E7D32;
+}
+.library-container .library-upload .scan-message.error {
+  background: rgba(244, 67, 54, 0.1);
+  border: 2px solid #F44336;
+  color: #C62828;
+}
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.library-container .library-upload .random-play-section {
+  margin-top: 2rem;
+  text-align: center;
+}
+.library-container .library-upload .random-play-section .random-play-btn {
+  background: linear-gradient(135deg, #A74F37 0%, #38132D 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2.5rem;
+  border-radius: 16px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(167, 79, 55, 0.3);
+}
+.library-container .library-upload .random-play-section .random-play-btn:hover {
+  transform: translateY(-3px) scale(1.05);
+  box-shadow: 0 6px 25px rgba(167, 79, 55, 0.5);
+}
+.library-container .library-upload .random-play-section .random-play-btn:active {
+  transform: translateY(-1px) scale(1.02);
 }
 .library-container .library-list .cards-grid {
   display: grid;

@@ -30,17 +30,37 @@
 .player-container .player-current .track-info .track-icon {
   font-size: 4rem;
 }
-.player-container .player-current .track-info .track-details {
+.player-container .player-current .track-info .track-cover {
+  width: 120px;
+  height: 120px;
+  border-radius: 12px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+.player-container .player-current .track-info .track-detail {
   text-align: left;
   flex: 1;
 }
-.player-container .player-current .track-info .track-details h3 {
+.player-container .player-current .track-info .track-detail h3 {
   margin: 0 0 0.5rem 0;
   font-size: 1.3rem;
   color: #333;
   word-break: break-word;
 }
-.player-container .player-current .track-info .track-details p {
+.player-container .player-current .track-info .track-detail .track-artist {
+  margin: 0.25rem 0;
+  color: #666;
+  font-size: 1rem;
+  font-weight: 500;
+}
+.player-container .player-current .track-info .track-detail .track-album {
+  margin: 0.25rem 0;
+  color: #999;
+  font-size: 0.9rem;
+  font-style: italic;
+}
+.player-container .player-current .track-info .track-detail p {
   margin: 0;
   color: #666;
   font-size: 0.9rem;

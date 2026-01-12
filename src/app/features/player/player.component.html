@@ -6,10 +6,12 @@
 
     <section class="player-current" *ngIf="currentTrack">
         <div class="track-info">
-            <div class="track-icon">🎵</div>
+            <div class="track-icon" *ngIf="!trackPicture">🎵</div>
+            <img *ngIf="trackPicture" [src]="trackPicture" alt="Pochette" class="track-cover">
             <div class="track-detail">
-                <h3>{{ currentTrack.name }}</h3>
-                <p>{{ (currentTrack.size / 1024 / 1024).toFixed(2) }} MB</p>
+                <h3>{{ trackTitle || currentTrack.name }}</h3>
+                <p class="track-artist">{{ trackArtist }}</p>
+                <p class="track-album" *ngIf="trackAlbum">{{ trackAlbum }}</p>
             </div>
         </div>
     </section>

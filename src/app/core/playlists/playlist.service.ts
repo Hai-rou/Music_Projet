@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Playlist } from '../models/playlist.model';
+import { EnrichedTrack } from '../models/track.model';
+import * as mm from 'music-metadata-browser';
 
 @Injectable({
   providedIn: 'root'
@@ -52,6 +54,43 @@ export class PlaylistService {
       console.log(`🗑️ Playlist "${name}" supprimée`);
     } else {
       console.log(`⚠️ Playlist "${name}" introuvable`);
+    }
+  }
+
+  async extractMetadata(file: File): Promise<EnrichedTrack> {
+    try {
+      // 1. Extraire les métadonnées avec music-metadata-browser
+      const metadata = await mm.parseBlob(file);
+
+      // 2. Extraire la pochette si disponible
+      let picture: string | undefined;
+      if (metadata.common.picture && metadata.common.picture.length > 0) {
+        const pic = metadata.common.picture[0];
+        const blob = new Blob([new Uint8Array(pic.data)], { type: pic.format });
+        picture = URL.createObjectURL(blob);
+      }
+
+      // 3. Construire l'objet EnrichedTrack
+      return {
+        file: file,
+        title: metadata.common.title || file.name.replace('.mp3', ''),
+        artist: metadata.common.artist || 'Inconnu',
+        album: metadata.common.album,
+        duration: metadata.format.duration,
+        picture: picture
+      };
+
+    } catch (error) {
+      // 4. Si ça échoue, utiliser le nom du fichier
+      console.log(`⚠️ Pas de métadonnées pour ${file.name}`);
+      return {
+        file: file,
+        title: file.name.replace('.mp3', ''),
+        artist: 'Inconnu',
+        album: undefined,
+        duration: undefined,
+        picture: undefined
+      };
     }
   }
 

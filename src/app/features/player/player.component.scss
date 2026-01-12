@@ -32,22 +32,44 @@
             gap: 1.5rem;
 
             .track-icon {
-            font-size: 4rem;
+                font-size: 4rem;
             }
 
-            .track-details {
-            text-align: left;
-            flex: 1;
-
-            h3 {
-                margin: 0 0 0.5rem 0;
-                font-size: 1.3rem;
-                color: #333;
-                word-break: break-word;
+            .track-cover {
+                width: 120px;
+                height: 120px;
+                border-radius: 12px;
+                object-fit: cover;
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
             }
 
-            p {
-                margin: 0;
+            .track-detail {
+                text-align: left;
+                flex: 1;
+
+                h3 {
+                    margin: 0 0 0.5rem 0;
+                    font-size: 1.3rem;
+                    color: #333;
+                    word-break: break-word;
+                }
+
+                .track-artist {
+                    margin: 0.25rem 0;
+                    color: #666;
+                    font-size: 1rem;
+                    font-weight: 500;
+                }
+
+                .track-album {
+                    margin: 0.25rem 0;
+                    color: #999;
+                    font-size: 0.9rem;
+                    font-style: italic;
+                }
+
+                p {
+                    margin: 0;
                 color: #666;
                 font-size: 0.9rem;
             }
