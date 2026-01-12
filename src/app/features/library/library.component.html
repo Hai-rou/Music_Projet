@@ -40,6 +40,13 @@
         <div *ngIf="scanMessage" class="scan-message" [class.success]="scanStatus === 'success'" [class.error]="scanStatus === 'error'">
             {{ scanMessage }}
         </div>
+
+        <!-- Bouton lecture aléatoire -->
+        <div class="random-play-section">
+            <button class="random-play-btn" (click)="playRandomTrack()">
+                🔀 Lecture aléatoire de toute la bibliothèque
+            </button>
+        </div>
     </section>
 
     <section class="library-list" *ngIf="selectedFiles.length > 0">

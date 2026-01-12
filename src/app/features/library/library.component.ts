@@ -115,6 +115,34 @@ export class LibraryComponent implements OnInit {
     }
   }
 
+  // Lecture aléatoire de la bibliothèque
+  playRandomTrack() {
+    // 1. Récupérer Toutes les musiques
+    let allTracks: File[] = [...this.selectedFiles];
+
+    // 2. Ajouter les fichiers de toutes les playlists
+    const playlists = this.playlistService.getPlaylists();
+    for (const playlist of playlists) {
+      allTracks = [...allTracks, ...playlist.tracks];
+    }
+
+    // 3. Vérifier qu'il y a des morceaux
+    if (allTracks.length === 0) {
+      console.log('Aucun fichier disponible');
+      return; // Sortir de la fonction
+    }
+
+    // 4. Mélanger les morceaux
+    for (let i = allTracks.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [allTracks[i], allTracks[j]] = [allTracks[j], allTracks[i]];
+    }
+
+    // 5. Lancer la lecture du premier morceau
+    this.audioPlayer.play(allTracks[0], allTracks);
+    console.log('🔀 Lecture aléatoire démarrée avec:', allTracks.length, 'morceaux');
+  }
+
   // Fonction récursive pour scanner un dossier et ses sous-dossiers
   private async scanDirectory(dirHandle: any, folderName: string) {
 

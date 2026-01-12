@@ -131,6 +131,34 @@
                 transform: translateY(0);
             }
         }
+
+        // Bouton lecture aléatoire
+        .random-play-section {
+            margin-top: 2rem;
+            text-align: center;
+
+            .random-play-btn {
+                background: linear-gradient(135deg, $brand-orange 0%, $brand-dark 100%);
+                color: white;
+                border: none;
+                padding: 1rem 2.5rem;
+                border-radius: $radius-lg;
+                font-size: 1.1rem;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all $transition-normal;
+                box-shadow: 0 4px 15px rgba($brand-orange, 0.3);
+
+                &:hover {
+                    transform: translateY(-3px) scale(1.05);
+                    box-shadow: 0 6px 25px rgba($brand-orange, 0.5);
+                }
+
+                &:active {
+                    transform: translateY(-1px) scale(1.02);
+                }
+            }
+        }
     }
 
     // Section selected files
