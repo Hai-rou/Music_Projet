@@ -28,12 +28,37 @@ export class AudioPlayerService {
     return this.playlistSubject.value;
   }
 
-
   // Élément audio HTML
   private audio: HTMLAudioElement | null = null;
   private currentIndex: number = 0;
 
-  constructor() {}
+  constructor() {
+    // Configurer les contrôles Media Session
+    this.setupMediaSessionHandlers();
+  }
+
+  // Configurer les handlers pour les contrôles système
+  private setupMediaSessionHandlers() {
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.setActionHandler('play', () => {
+        this.resume();
+      });
+
+      navigator.mediaSession.setActionHandler('pause', () => {
+        this.pause();
+      });
+
+      navigator.mediaSession.setActionHandler('previoustrack', () => {
+        this.previous();
+      });
+
+      navigator.mediaSession.setActionHandler('nexttrack', () => {
+        this.next();
+      });
+
+      console.log('🎮 Media Session handlers configurés');
+    }
+  }
 
   // Définir la playlist
   setPlaylist(files: File[]) {
@@ -42,6 +67,7 @@ export class AudioPlayerService {
 
   // Lire une musique
   play(file: File, playlist?: File[]) {
+    
     // Si une playlist est fournie, la sauvegarder
     if (playlist) {
       this.setPlaylist(playlist);
@@ -81,9 +107,53 @@ export class AudioPlayerService {
       this.next(); // Passer à la suivante
     });
 
-    
+    // Mettre à jour les métadonnées pour l'écran de verrouillage
+    this.updateMediaSession(file);
   }
 
+  // Mettre à jour Media Session avec les métadonnées
+  private async updateMediaSession(file: File) {
+    if ('mediaSession' in navigator) {
+      try {
+        // Extraire les métadonnées avec music-metadata-browser
+        const mm = await import('music-metadata-browser');
+        const metadata = await mm.parseBlob(file);
+
+        // Préparer l'artwork si disponible
+        let artwork: MediaImage[] = [];
+        if (metadata.common.picture && metadata.common.picture.length > 0) {
+          const pic = metadata.common.picture[0];
+          const blob = new Blob([new Uint8Array(pic.data)], { type: pic.format });
+          const artworkUrl = URL.createObjectURL(blob);
+          
+          artwork = [
+            { src: artworkUrl, sizes: '512x512', type: pic.format }
+          ];
+        }
+
+        // Mettre à jour navigator.mediaSession
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: metadata.common.title || file.name.replace('.mp3', ''),
+          artist: metadata.common.artist || 'Artiste inconnu',
+          album: metadata.common.album || '',
+          artwork: artwork
+        });
+
+        console.log('🎵 Media Session mise à jour:', metadata.common.title);
+      } catch (error) {
+        // Fallback si extraction échoue
+        console.log('⚠️ Métadonnées non extraites, utilisation du nom de fichier');
+        navigator.mediaSession.metadata = new MediaMetadata({
+          title: file.name.replace('.mp3', ''),
+          artist: 'Artiste inconnu',
+          album: '',
+          artwork: []
+        });
+      }
+    }
+  }
+
+  
   // Pause
   pause() {
     if (this.audio) {
