@@ -80,6 +80,10 @@ export class AudioPlayerService {
       this.audio = null;
     }
 
+    // Réinitialiser les valeurs avant de charger une nouvelle piste
+    this.currentTimeSubject.next(0);
+    this.durationSubject.next(0);
+
     // Créer une URL temporaire
     const url = URL.createObjectURL(file);
     
@@ -88,16 +92,19 @@ export class AudioPlayerService {
     this.currentTrackSubject.next(file);
     this.isPlayingSubject.next(true);
     
-    // Lire
-    this.audio.play();
+    // Événement : quand les métadonnées sont chargées
+    this.audio.addEventListener('loadedmetadata', () => {
+      this.durationSubject.next(this.audio!.duration);
+      console.log(`⏱️ Durée: ${this.audio!.duration}s`);
+    });
 
+    // Événement : mise à jour du temps actuel
     this.audio.addEventListener('timeupdate', () => {
       this.currentTimeSubject.next(this.audio!.currentTime);
     });
-
-    this.audio.addEventListener('loadedmetadata', () => {
-      this.durationSubject.next(this.audio!.duration);
-    });
+    
+    // Lire
+    this.audio.play();
     
     console.log(`🎵 Lecture: ${file.name}`);
 
