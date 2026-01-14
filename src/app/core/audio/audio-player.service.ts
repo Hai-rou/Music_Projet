@@ -92,26 +92,30 @@ export class AudioPlayerService {
     this.currentTrackSubject.next(file);
     this.isPlayingSubject.next(true);
     
-    // Événement : quand les métadonnées sont chargées
+    // Configurer les événements AVANT de lancer la lecture
     this.audio.addEventListener('loadedmetadata', () => {
-      this.durationSubject.next(this.audio!.duration);
-      console.log(`⏱️ Durée: ${this.audio!.duration}s`);
+      if (this.audio && this.audio.duration && isFinite(this.audio.duration)) {
+        this.durationSubject.next(this.audio.duration);
+        console.log(`⏱️ Durée chargée: ${this.audio.duration.toFixed(2)}s`);
+      }
     });
 
-    // Événement : mise à jour du temps actuel
     this.audio.addEventListener('timeupdate', () => {
-      this.currentTimeSubject.next(this.audio!.currentTime);
+      if (this.audio) {
+        this.currentTimeSubject.next(this.audio.currentTime);
+      }
     });
-    
-    // Lire
-    this.audio.play();
-    
-    console.log(`🎵 Lecture: ${file.name}`);
 
-    // Quand la musique se termine
     this.audio.addEventListener('ended', () => {
       URL.revokeObjectURL(url);
-      this.next(); // Passer à la suivante
+      this.next();
+    });
+
+    // Lancer la lecture
+    this.audio.play().then(() => {
+      console.log(`🎵 Lecture démarrée: ${file.name}`);
+    }).catch(error => {
+      console.error('❌ Erreur lecture:', error);
     });
 
     // Mettre à jour les métadonnées pour l'écran de verrouillage
