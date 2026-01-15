@@ -1,0 +1,254 @@
+@import '../../../styles/_variables.scss';
+
+.about-container {
+  padding: $spacing-xl;
+  max-width: 1200px;
+  margin: 0 auto;
+  
+  // Glassmorphism comme les autres pages
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.95) 0%,
+    rgba(255, 255, 255, 0.9) 100%
+  );
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  
+  border: 1px solid rgba(246, 170, 30, 0.2);
+  border-radius: $radius-lg;
+  box-shadow: 
+    0 8px 32px rgba(246, 170, 30, 0.15),
+    0 2px 8px rgba(0, 0, 0, 0.1);
+
+  // Titre principal
+  > h2 {
+    font-size: 2.5rem;
+    color: $brand-dark;
+    margin-bottom: $spacing-lg;
+    text-align: center;
+    font-weight: 700;
+    
+    // Effet gradient sur le texte
+    background: linear-gradient(135deg, $brand-dark 0%, $brand-orange 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  // Intro
+  > p {
+    font-size: 1.1rem;
+    color: #666;
+    text-align: center;
+    margin-bottom: $spacing-xl;
+    line-height: 1.8;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  // Section paradoxe
+  .why-container {
+    margin: $spacing-xl 0;
+
+    h3 {
+      font-size: 2rem;
+      color: $brand-dark;
+      text-align: center;
+      margin-bottom: $spacing-lg;
+      font-weight: 600;
+    }
+
+    .why-box {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: $spacing-lg;
+      margin-top: $spacing-lg;
+
+      .why-card {
+        background: linear-gradient(135deg, $brand-dark 0%, $brand-orange 100%);
+        border-radius: $radius-lg;
+        padding: $spacing-xl;
+        box-shadow: $shadow-md;
+        transition: all $transition-normal;
+        border: 2px solid $brand-orange;
+
+        &:hover {
+          transform: translateY(-8px) scale(1.02);
+          box-shadow: $shadow-lg;
+          border-color: $brand-yellow-light;
+        }
+
+        .card-icon {
+          font-size: 3rem;
+          text-align: center;
+          margin-bottom: $spacing-md;
+          animation: float 3s ease-in-out infinite;
+        }
+
+        h3 {
+          color: $brand-yellow-light;
+          font-size: 1.5rem;
+          margin-bottom: $spacing-md;
+          text-align: center;
+          font-weight: 700;
+        }
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+
+          li {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: 1rem;
+            margin-bottom: $spacing-sm;
+            padding-left: $spacing-lg;
+            position: relative;
+            line-height: 1.6;
+
+            &::before {
+              content: '✓';
+              position: absolute;
+              left: 0;
+              color: $brand-yellow-light;
+              font-weight: bold;
+              font-size: 1.2rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  // Section arguments principaux
+  .main-argu {
+    margin-top: $spacing-xl * 2;
+
+    h3 {
+      font-size: 2rem;
+      color: $brand-dark;
+      text-align: center;
+      margin-bottom: $spacing-md;
+      font-weight: 600;
+    }
+
+    > p {
+      font-size: 1.2rem;
+      color: #666;
+      text-align: center;
+      margin-bottom: $spacing-xl;
+      font-style: italic;
+      line-height: 1.8;
+      max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .item-argu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: $spacing-lg;
+      margin-top: $spacing-lg;
+
+      .argu-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: $radius-lg;
+        padding: $spacing-lg;
+        box-shadow: $shadow-sm;
+        transition: all $transition-normal;
+        border: 2px solid transparent;
+
+        &:hover {
+          transform: translateY(-5px);
+          box-shadow: $shadow-lg;
+          border-color: $brand-orange;
+          background: linear-gradient(
+            135deg,
+            rgba(246, 170, 30, 0.05),
+            rgba(167, 79, 55, 0.05)
+          );
+        }
+
+        .card-icon {
+          font-size: 2.5rem;
+          text-align: center;
+          margin-bottom: $spacing-md;
+          transition: transform $transition-normal;
+        }
+
+        &:hover .card-icon {
+          transform: scale(1.2) rotate(5deg);
+        }
+
+        h4 {
+          color: $brand-dark;
+          font-size: 1.3rem;
+          margin-bottom: $spacing-sm;
+          text-align: center;
+          font-weight: 600;
+        }
+
+        p {
+          color: #666;
+          font-size: 0.95rem;
+          text-align: center;
+          line-height: 1.6;
+          margin: 0;
+        }
+      }
+    }
+  }
+}
+
+// Animation de flottement pour les icônes
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .about-container {
+    padding: $spacing-md;
+
+    > h2 {
+      font-size: 2rem;
+    }
+
+    > p {
+      font-size: 1rem;
+    }
+
+    .why-container {
+      h3 {
+        font-size: 1.5rem;
+      }
+
+      .why-box {
+        grid-template-columns: 1fr;
+        gap: $spacing-md;
+      }
+    }
+
+    .main-argu {
+      h3 {
+        font-size: 1.5rem;
+      }
+
+      > p {
+        font-size: 1rem;
+      }
+
+      .item-argu {
+        grid-template-columns: 1fr;
+        gap: $spacing-md;
+      }
+    }
+  }
+}

@@ -35,14 +35,6 @@
 
     <!-- Barre de progression -->
      <section class="player-progress" *ngIf="currentTrack">
-        <!-- DEBUG : Affichage des valeurs -->
-        <div style="background: rgba(255,255,255,0.9); padding: 10px; margin-bottom: 10px; border-radius: 8px; font-size: 12px; color: #333;">
-            <strong>🔍 DEBUG:</strong><br>
-            currentTime: {{ currentTime.toFixed(2) }}s<br>
-            duration: {{ duration.toFixed(2) }}s<br>
-            progress: {{ getProgress().toFixed(1) }}%
-        </div>
-        
         <div class="time-display">
             <span>{{ formatTime(currentTime) }}</span>
             <span>{{ formatTime(duration) }}</span>
