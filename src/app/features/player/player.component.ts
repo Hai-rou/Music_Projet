@@ -44,6 +44,7 @@ export class PlayerComponent implements OnInit {
 
     this.audioPlayer.duration$.subscribe(duration => {
       this.duration = duration;
+      console.log(`📊 Duration mise à jour: ${duration}s`);
     });
   }
 
@@ -68,7 +69,9 @@ export class PlayerComponent implements OnInit {
 
   getProgress(): number {
     if (this.duration === 0) return 0;
-    return (this.currentTime / this.duration) * 100;
+    const progress = (this.currentTime / this.duration) * 100;
+    console.log(`📈 Progress: ${progress.toFixed(1)}% (${this.currentTime.toFixed(1)}s / ${this.duration.toFixed(1)}s)`);
+    return progress;
   }
 
   onProgressClick(event: MouseEvent) {
