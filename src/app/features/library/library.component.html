@@ -15,6 +15,16 @@
                 <button class="scan-folder-btn" (click)="scanMusicFolder()">
                     Scanner mon dossier musique
                 </button>
+                <!-- Input caché pour webkitdirectory (fallback Firefox/Safari) -->
+                <input 
+                    type="file" 
+                    #folderInput
+                    webkitdirectory 
+                    directory
+                    multiple
+                    (change)="onFolderSelected($event)"
+                    style="display: none;"
+                />
             </div>
 
             <!-- Ou ajouter des fichiers individuels -->

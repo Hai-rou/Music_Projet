@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AudioPlayerService } from '../../core/audio/audio-player.service';
 import { PlaylistService } from '../../core/playlists/playlist.service';
@@ -12,6 +12,8 @@ import { Playlist } from '../../core/models/playlist.model';
   styleUrls: ['./library.component.scss']
 })
 export class LibraryComponent implements OnInit {  
+  
+  @ViewChild('folderInput') folderInput!: ElementRef<HTMLInputElement>;
   
   selectedFiles: File[] = []; // Tableau pour stocker les fichiers sélectionnés
   scanMessage: string = ''; // Message de statut du scan
@@ -66,12 +68,14 @@ export class LibraryComponent implements OnInit {
   }
 
   async scanMusicFolder() {
-    // Vérifier si l'API est disponible
+    // Réinitialiser le message
+    this.scanMessage = '';
+    this.scanStatus = '';
+    
+    // Stratégie 1 : Essayer showDirectoryPicker (Chrome/Edge moderne)
     if ('showDirectoryPicker' in window) {
       try {
-        // Réinitialiser le message
-        this.scanMessage = '';
-        this.scanStatus = '';
+        console.log('🚀 Utilisation de showDirectoryPicker (Chrome/Edge)');
         
         // Étape 1 : Demander à l'utilisateur de sélectionner un dossier
         const dirHandle = await (window as any).showDirectoryPicker();
@@ -109,9 +113,9 @@ export class LibraryComponent implements OnInit {
         }, 5000);
       }
     } else {
-      // Fallback si l'API n'est pas disponible
-      this.scanMessage = '⚠️ Votre navigateur ne supporte pas cette fonctionnalité. Utilisez Chrome ou Edge.';
-      this.scanStatus = 'error';
+      // Stratégie 2 : Fallback avec webkitdirectory (Firefox/Safari/anciens navigateurs)
+      console.log('🦊 Fallback vers webkitdirectory (Firefox/Safari)');
+      this.folderInput.nativeElement.click();
     }
   }
 
@@ -143,7 +147,69 @@ export class LibraryComponent implements OnInit {
     console.log('🔀 Lecture aléatoire démarrée avec:', allTracks.length, 'morceaux');
   }
 
-  // Fonction récursive pour scanner un dossier et ses sous-dossiers
+  // Méthode pour traiter les fichiers sélectionnés via webkitdirectory
+  onFolderSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    
+    if (!input.files || input.files.length === 0) {
+      console.log('Aucun fichier sélectionné');
+      return;
+    }
+    
+    console.log(`📂 ${input.files.length} fichiers détectés via webkitdirectory`);
+    this.scanMessage = 'Scan en cours...';
+    this.scanStatus = '';
+    
+    // Organiser les fichiers par dossier
+    const folderMap = new Map<string, File[]>();
+    
+    for (let i = 0; i < input.files.length; i++) {
+      const file = input.files[i];
+      
+      // Filtrer uniquement les MP3
+      if (file.name.toLowerCase().endsWith('.mp3')) {
+        // Extraire le nom du dossier parent depuis le webkitRelativePath
+        const webkitFile = file as any;
+        const relativePath = webkitFile.webkitRelativePath || file.name;
+        const pathParts = relativePath.split('/');
+        
+        // Le nom du dossier est l'avant-dernier élément (avant le fichier)
+        const folderName = pathParts.length > 1 ? pathParts[pathParts.length - 2] : 'Musique';
+        
+        // Ajouter à la map
+        if (!folderMap.has(folderName)) {
+          folderMap.set(folderName, []);
+        }
+        folderMap.get(folderName)!.push(file);
+      }
+    }
+    
+    // Créer une playlist pour chaque dossier
+    let playlistCount = 0;
+    folderMap.forEach((tracks, folderName) => {
+      this.playlistService.addPlaylist({
+        name: folderName,
+        tracks: tracks
+      });
+      console.log(`✅ Playlist "${folderName}" créée avec ${tracks.length} morceaux`);
+      playlistCount++;
+    });
+    
+    // Afficher le message de succès
+    this.scanMessage = `✅ Scan terminé ! ${playlistCount} playlist(s) créée(s). Allez dans "Mes Playlists" pour les voir.`;
+    this.scanStatus = 'success';
+    
+    // Effacer le message après 5 secondes
+    setTimeout(() => {
+      this.scanMessage = '';
+      this.scanStatus = '';
+    }, 5000);
+    
+    // Réinitialiser l'input pour permettre une nouvelle sélection
+    input.value = '';
+  }
+
+  // Fonction récursive pour scanner un dossier et ses sous-dossiers (showDirectoryPicker)
   private async scanDirectory(dirHandle: any, folderName: string) {
 
     // Créer un tableau temporaire pour stocker les fichiers trouvés
